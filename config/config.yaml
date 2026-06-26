@@ -1,0 +1,21 @@
+artifacts_root: artifacts
+
+data_ingestion:
+  raw_data_path: data/raw/stud.csv
+  ingestion_dir: artifacts/data_ingestion
+  raw_data_file: artifacts/data_ingestion/raw.csv
+  train_data_file: artifacts/data_ingestion/train.csv
+  test_data_file: artifacts/data_ingestion/test.csv
+
+data_transformation:
+  root_dir: artifacts/data_transformation
+  preprocessor_obj_path: artifacts/data_transformation/preprocessor.pkl
+  transformed_train_data: artifacts/data_transformation/train.npy
+  transformed_test_data: artifacts/data_transformation/test.npy
+
+training:
+  root_dir: artifacts/training
+  trained_model_path: artifacts/training/model.dill
+  model_report: artifacts/training/model_report.json
+
+

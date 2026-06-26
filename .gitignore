@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.log
+.pytest_cache/
+.vscode/
+.qodo/
+.env
+.venv/
+venv/
+env/
+monitoring/
+logs/
+artifacts/
+data/
+dvc.lock
