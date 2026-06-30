@@ -100,12 +100,12 @@ def test_preprocessor_object_is_usable(prepared_data_transformation_config):
     assert hasattr(preprocessor, "fit")
     assert hasattr(preprocessor, "transform")
 
-def test_initiate_data_transformation_saves_numpy_arrays(preapared_data_transformation_config):
-    transformation = DataTransformation(config=preapared_data_transformation_config)
+def test_initiate_data_transformation_saves_numpy_arrays(prepared_data_transformation_config):
+    transformation = DataTransformation(config=prepared_data_transformation_config)
 
     transformation.initiate_data_transformation()
-    train_array = np.load(preapared_data_transformation_config.transformed_train_data)
-    test_array = np.load(preapared_data_transformation_config.transformed_test_data)
+    train_array = np.load(prepared_data_transformation_config.transformed_train_data)
+    test_array = np.load(prepared_data_transformation_config.transformed_test_data)
 
     assert train_array.shape[0] == 3
     assert test_array.shape[0] == 2
