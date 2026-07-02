@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push: 
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  pipeline-and-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+
+      - name: Clean old artifacts
+        run: rm -rf artifacts
+
+      - name: Run full training pipeline
+        run: python main.py
+
+      - name: Verify artifacts paths exist
+        run: |
+          echo "--- Verifying expected artifacts ---"
+          missing=0
+
+          files=(
+          artifacts/data_ingestion/train.csv
+          artifacts/data_ingestion/test.csv
+          artifacts/data_transformation/preprocessor.pkl
+          artifacts/data_transformation/train.npy
+          artifacts/data_transformation/test.npy
+          artifacts/training/model.dill
+          artifacts/training/model_report.json
+            )
+
+          for file in "${files[@]}"; do
+                if [ ! -e "$file" ]; then
+                echo "❌ Missing: $file"
+                missing=1
+                fi
+            done
+
+          if [ $missing -eq 1 ]; then
+                exit 1
+          fi
+
+          echo "✅ All required files exist."
+
+          # test -f artifacts/data_ingestion/train.csv
+
+      - name: Run tests
+        run: pytest -q
