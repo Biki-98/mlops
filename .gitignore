@@ -5,11 +5,12 @@ __pycache__/
 .vscode/
 .qodo/
 .env
+.env.local
+*.env
 .venv/
 venv/
 env/
 monitoring/
 logs/
 artifacts/
-data/
 dvc.lock
