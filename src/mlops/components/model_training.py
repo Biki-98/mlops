@@ -1,4 +1,7 @@
 import sys
+import os
+import mlflow
+import mlflow.sklearn
 from mlops.entity.config_entity import TrainingConfig
 from mlops.exception import CustomException
 from  mlops.logger import logging
@@ -18,6 +21,7 @@ class Training:
         self.y_test = None
         self.y_train_pred = None
         self.y_test_pred = None
+        self.report = None
         self._is_trained = False
 
     def train(self):
@@ -95,13 +99,62 @@ class Training:
             logging.info(f"Trained model is saved at {self.config.tranied_model_path}")
             
             report = {"train": y_train_model_report,"test": y_test_model_report}
+            self.report = report
 
             save_json(data=report, file_path=self.config.model_report)
 
             logging.info(f"Model report of train and test set is saved at {self.config.model_report}")
+            return report
 
         except Exception as e:
             raise CustomException(e,sys)
+
+    def log_to_mlflow(
+        self,
+        registered_model_name=None,
+        experiment_name=None,
+        run_name=None,
+        tracking_uri=os.environ["MLFLOW_TRACKING_URI"],
+    ):
+        """Log model metrics, report artifact, and model to MLflow."""
+
+        if not self._is_trained:
+            raise RuntimeError("You must call train() before log_to_mlflow().")
+
+        if self.report is None:
+            self.evaluate()
+
+        try:
+            if tracking_uri:
+                mlflow.set_tracking_uri(tracking_uri)
+
+            if experiment_name:
+                mlflow.set_experiment(experiment_name)
+
+            metrics = {
+                "train_mae": self.report["train"]["mae"],
+                "train_rmse": self.report["train"]["rmse"],
+                "train_r2_score": self.report["train"]["r2_score"],
+                "test_mae": self.report["test"]["mae"],
+                "test_rmse": self.report["test"]["rmse"],
+                "test_r2_score": self.report["test"]["r2_score"],
+            }
+
+            with mlflow.start_run(run_name=run_name):
+                mlflow.log_metrics(metrics)
+                mlflow.log_artifact(str(self.config.model_report))
+
+                model_info = mlflow.sklearn.log_model(
+                    sk_model=self.lr,
+                    artifact_path="model",
+                    registered_model_name=registered_model_name,
+                )
+
+            logging.info("Model metrics, report, and model logged to MLflow successfully.")
+            return model_info
+
+        except Exception as e:
+            raise CustomException(e, sys)
 
 
         
