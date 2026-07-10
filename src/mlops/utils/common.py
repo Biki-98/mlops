@@ -11,6 +11,7 @@ from mlops.exception import CustomException
 from box import ConfigBox 
 from box.exceptions import BoxValueError
 from mlops.constants import CONFIG_FILE_PATH
+from dotenv import load_dotenv
 
 
 @ensure_annotations
@@ -124,3 +125,13 @@ def save_json(data: Any, file_path: str, indent: int = 4) -> None:
 
     except Exception as e:
         raise CustomException(e, sys)
+    
+
+
+
+# Load once per process
+load_dotenv()
+
+def get_env(key: str, default=None):
+    """Safe wrapper to get env vars."""
+    return os.getenv(key, default)
