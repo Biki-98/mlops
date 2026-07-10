@@ -8,7 +8,7 @@ from  mlops.logger import logging
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-from mlops.utils.common import save_json, save_object
+from mlops.utils.common import save_json, save_object, get_env
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
 class Training:
@@ -114,7 +114,7 @@ class Training:
         registered_model_name=None,
         experiment_name=None,
         run_name=None,
-        tracking_uri=os.environ["MLFLOW_TRACKING_URI"],
+        tracking_uri=None,
     ):
         """Log model metrics, report artifact, and model to MLflow."""
 

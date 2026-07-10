@@ -4,6 +4,8 @@ from mlops.logger import logging
 from mlops.config.configuration import ConfigurationManager
 from mlops.components.model_training import Training
 from mlops.exception import CustomException
+from mlops.utils.common import get_env
+
 
 STAGE_NAME = "Model Training"
 
@@ -23,7 +25,7 @@ class ModelTrainingPipeline:
     registered_model_name="student-performance-model",
     experiment_name="student-performance-training",
     run_name="linear-regression",
-    tracking_uri=os.environ["MLFLOW_TRACKING_URI"])
+    tracking_uri=get_env("MLFLOW_TRACKING_URI"))
             logging.info(f"{STAGE_NAME} pipeline executed successfully")
 
         except Exception as e:
