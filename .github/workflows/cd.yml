@@ -1,0 +1,17 @@
+# cd.yml
+name: CD Pipeline
+on:
+  workflow_dispatch:    # manual button in GitHub UI
+  workflow_run:         # also auto-trigger after CI
+    workflows: ["CI Pipeline"]   # exact match to name: above
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy
+        run: echo "Deploy step here"

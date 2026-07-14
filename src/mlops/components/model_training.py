@@ -143,6 +143,10 @@ class Training:
             with mlflow.start_run(run_name=run_name):
                 mlflow.log_metrics(metrics)
                 mlflow.log_artifact(str(self.config.model_report))
+                mlflow.log_artifact(
+                self.config.tranied_model_path,
+                artifact_path="trained_models"
+                )
 
                 model_info = mlflow.sklearn.log_model(
                     sk_model=self.lr,

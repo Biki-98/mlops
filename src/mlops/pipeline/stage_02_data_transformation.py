@@ -3,6 +3,7 @@ from mlops.config.configuration import ConfigurationManager
 from mlops.logger import logging
 from mlops.exception import CustomException
 from mlops.components.data_transformation import DataTransformation
+from mlops.utils.common import get_env
 
 STAGE_NAME ="Data Transformation"
 
@@ -17,6 +18,11 @@ class DataTransformationPipeline:
             data_transformation_config = config.get_data_transformation_config()
             data_transformation = DataTransformation(config=data_transformation_config)
             data_transformation.initiate_data_transformation()
+            data_transformation.save_preprocessor_obj_to_mlflow(
+            experiment_name="student-performance-training",
+            run_name="linear-regression",
+            tracking_uri=get_env("MLFLOW_TRACKING_URI")
+        )
             logging.info(f"{STAGE_NAME} Pipeline executed successfully.")
         
         except Exception as e:

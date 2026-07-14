@@ -22,10 +22,11 @@ class ModelTrainingPipeline:
             model_trainer.train()
             model_trainer.evaluate()
             model_trainer.log_to_mlflow(
-    registered_model_name="student-performance-model",
-    experiment_name="student-performance-training",
-    run_name="linear-regression",
-    tracking_uri=get_env("MLFLOW_TRACKING_URI"))
+            registered_model_name="student-performance-model",
+            experiment_name="student-performance-training",
+            run_name="linear-regression",
+            tracking_uri=get_env("MLFLOW_TRACKING_URI"))
+            
             logging.info(f"{STAGE_NAME} pipeline executed successfully")
 
         except Exception as e:

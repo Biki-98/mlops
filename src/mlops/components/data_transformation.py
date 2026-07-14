@@ -10,6 +10,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from pathlib import Path
 from mlops.utils.common import save_object
+import mlflow
 
 class DataTransformation:
     def __init__(self, config: DataTransformationConfig):
@@ -105,4 +106,32 @@ class DataTransformation:
 
         except Exception as e:
             raise CustomException(e,sys)
+
+
+    def save_preprocessor_obj_to_mlflow(
+        self,
+        experiment_name=None,
+        run_name=None,
+        tracking_uri = None):
+
+        """It saves the preprocessor object in mlflow artifacts."""
+
+        try:
+            if tracking_uri:
+                mlflow.set_tracking_uri(tracking_uri)
+
+            if experiment_name:
+                mlflow.set_experiment(experiment_name)
+
+            with mlflow.start_run(run_name=run_name):
+                mlflow.log_artifact(
+                    "artifacts/data_transformation/preprocessor.pkl",
+                    artifact_path="preprocessor"
+                    )
+                
+            logging.info("preprocessor.obj is saved to mlflow artifacts successfully")
+
+
+        except Exception as e:
+            raise CustomException(e, sys)
 
