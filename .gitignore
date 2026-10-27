@@ -13,5 +13,4 @@ env/
 monitoring/
 logs/
 artifacts/
-dvc.lock
 mlflow.db
