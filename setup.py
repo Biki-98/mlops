@@ -1,3 +1,4 @@
+'''
 print(">>> USING THIS SETUP.PY FILE <<<")
 
 import setuptools
@@ -44,4 +45,10 @@ setuptools.setup(
     install_requires=get_requirements("requirements.txt")
 
 )
+'''
+import setuptools
 
+setuptools.setup(
+    package_dir={"": "src"},
+    packages=setuptools.find_packages(where="src"),
+)

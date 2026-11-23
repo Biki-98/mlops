@@ -1,0 +1,26 @@
+[project]
+name = "mlops"
+version = "0.1.0"
+description = "A small Python package for a sample MLOps project"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Partha_98", email = "sarmapartha3@gmail.com" }
+]
+dependencies = [
+    "dill==0.4.1",
+    "ensure==1.0.4",
+    "flask==3.1.3",
+    "mlflow==3.14.0",
+    "numpy==2.4.3",
+    "pandas==2.3.3",
+    "pytest==9.0.3",
+    "python-box==7.4.1",
+    "python-dotenv==1.2.2",
+    "pyyaml==6.0.3",
+    "scikit-learn==1.8.0",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"

@@ -1,4 +1,5 @@
 README.md
+pyproject.toml
 setup.py
 src/mlops/__init__.py
 src/mlops/exception.py
@@ -11,14 +12,17 @@ src/mlops.egg-info/top_level.txt
 src/mlops/components/__init__.py
 src/mlops/components/data_ingestion.py
 src/mlops/components/data_transformation.py
+src/mlops/components/model_training.py
 src/mlops/config/__init__.py
 src/mlops/config/configuration.py
 src/mlops/constants/__init__.py
 src/mlops/entity/__init__.py
 src/mlops/entity/config_entity.py
 src/mlops/orchestration/__init__.py
-src/mlops/pipeline/01_data_ingestion.py
-src/mlops/pipeline/02_data_transformation.py
 src/mlops/pipeline/__init__.py
+src/mlops/pipeline/stage_01_data_ingestion.py
+src/mlops/pipeline/stage_02_data_transformation.py
+src/mlops/pipeline/stage_03_model_training.py
+src/mlops/pipeline/state_04_model_prediction.py
 src/mlops/utils/__init__.py
 src/mlops/utils/common.py
